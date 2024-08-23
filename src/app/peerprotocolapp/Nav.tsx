@@ -3,6 +3,7 @@ import Dropdown from "./dropdown";
 import { useEffect, useState } from "react";
 import { getKeplrFromWindow } from "@/util/getKeplrFromWindow";
 import { xionInfo } from "@/constants/coins";
+import { ellipsify } from "@/util/ellipsify";
 const Nav = () => {
   const [address, setAddress] = useState<string>("");
   const getKeyFromKeplr = async () => {
@@ -18,6 +19,7 @@ const Nav = () => {
     }
   };
   const init = async () => {
+    if (!!address) return;
     const keplr = await getKeplrFromWindow();
 
     if (keplr) {
@@ -46,12 +48,14 @@ const Nav = () => {
         onClick={init}
       >
         <Image
-          src="/images/walletconnect.svg"
+          src={address ? "/images/keplr.svg" : "/images/walletconnect.svg"}
           height={20}
           width={20}
           alt="connect wallet"
         />
-        <button className="text-sm">Connect</button>
+        <button className="text-sm">
+          {address ? ellipsify(address, 4) : "Connect"}
+        </button>
       </div>
     </nav>
   );

@@ -33,7 +33,9 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
     "react-toastify": "^10.0.5",
-    "recharts": "^2.12.7"
+    "recharts": "^2.12.7",
+    "@cosmjs/cosmwasm-stargate": "^0.32.4",
+    "@cosmjs/stargate": "^0.32.4"
   },
   "devDependencies": {
     "@types/node": "^20",

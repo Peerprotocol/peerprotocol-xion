@@ -28,10 +28,10 @@ const Profile = () => {
             <button
               className="bg-black text-white rounded-lg w-full py-3 mt-4 capitalize"
               onClick={() => {
-                if (wallet?.adapter.publicKey) {
+                // if (wallet?.adapter.publicKey) {
                   // initUser({ authority: wallet.adapter.publicKey });
                   initUser.mutate();
-                }
+                // }
               }}
             >
               Initialize Account

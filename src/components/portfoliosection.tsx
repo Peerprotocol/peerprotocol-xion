@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import InfoCard from "./infocard";
+import React, { useState } from "react";
 // import { UserContext } from "./WalletConnectProvider";
-import { parse } from "path";
 
 const IndexPage = () => {
   // const pState = useContext(UserContext);

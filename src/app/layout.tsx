@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import { AppWalletProvider } from "../components/wallets/solanaWalletProvider";
 import { DarkModeProvider } from "./LandingPage/DarkMode";
 import { TanstackQueryProvider } from "./tanstack-query-provider";
-import { ProgramContextProvider } from "@/context/program.context";
 import { ToastContainer } from "react-toastify";
+import { XionAbstractionProvider } from "@/components/providers/xion-abstraction.provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,14 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <TanstackQueryProvider>
-        <AppWalletProvider>
-          <ProgramContextProvider>
-            <DarkModeProvider>
-              <body className={inter.className}>{children}</body>
-              <ToastContainer />
-            </DarkModeProvider>
-          </ProgramContextProvider>
-        </AppWalletProvider>
+        <DarkModeProvider>
+          <XionAbstractionProvider>
+            <body className={inter.className}>{children}</body>
+          </XionAbstractionProvider>
+          <ToastContainer />
+        </DarkModeProvider>
       </TanstackQueryProvider>
     </html>
   );

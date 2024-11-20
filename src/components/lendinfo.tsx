@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
 import { infoTableLabels } from "@/lib/data";
 // import { UserContext } from "./WalletConnectProvider";
@@ -8,13 +8,7 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
 
   const handleLendClick = (index: number) => {
     setSelectedRow(selectedRow === index ? null : index);
@@ -23,12 +17,10 @@ const LendInfoTable = ({ tableItems }: { tableItems: any[] }) => {
   const [selectedPubKey, setSelectPubKey] = useState("");
   // const pState = useContext(UserContext);
 
-  let debt = 0;
   // for (let i = 0; i < pState.userDebt.length; i++) {
   //   debt += (pState.userDebt[i] as any).account.amount.toNumber();
   // }
 
-  const newdebt = debt / 10 ** 6;
   // const result = (newdebt / parseInt(pState.deposit)) * 100;
 
   // const acceptLoanIdx = async (item: any) => {

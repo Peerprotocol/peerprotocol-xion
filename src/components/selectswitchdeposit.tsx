@@ -1,10 +1,7 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import { allowedCoins } from "../constants/coins";
-import { set } from "@project-serum/anchor/dist/cjs/utils/features";
 // import { UserContext } from "./WalletConnectProvider";
 import { formatNumber } from "@/data/format_number";
 

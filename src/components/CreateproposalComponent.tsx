@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, {  } from "react";
 import { useState } from "react";
 import { allowedCoins } from "../constants/coins";
 // import { UserContext } from "./WalletConnectProvider";

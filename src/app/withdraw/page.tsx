@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Navbar from "@/components/nav";
-import Image from "next/image";
 import DepCom from "@/components/dep_com";
 // import { WalletConnectProvider } from "@/components/WalletConnectProvider";
 

@@ -1,37 +1,21 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { WalletAdapter } from "@solana/wallet-adapter-base";
-import { WalletProvider } from "@solana/wallet-adapter-react";
-import { ConnectionProvider } from "@solana/wallet-adapter-react";
-import { clusterApiUrl } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import * as anchor from "@project-serum/anchor";
-import { useEffect, useMemo } from "react";
-import toast from "react-hot-toast";
-import { SystemProgram } from "@solana/web3.js";
-import { utf8 } from "@project-serum/anchor/dist/cjs/utils/bytes";
-import { findProgramAddressSync } from "@project-serum/anchor/dist/cjs/utils/pubkey";
-import { useAnchorWallet, useConnection } from "@solana/wallet-adapter-react";
+import { useEffect } from "react";
 // import { UserContext } from "./WalletConnectProvider";
 
 const Navbar = () => {
-  const { select, wallets, publicKey, disconnect } = useWallet();
+  const { wallets } = useWallet();
   // const pState = useContext(UserContext);
-  const wallet = wallets[0];
   const [isClient, setisClient] = useState(false);
 
   useEffect(() => {
     setisClient(true);
   }, []);
 
-  const handleWalletConnect = async () => {
-    console.log("connecting to your wallet before initializing...");
-    await new Promise((resolve) => setTimeout(resolve, 4000));
-    // pState.initializeUser();
-  };
 
   return (
     <nav role="navigation" className="flex justify-between mx-14 my-4">

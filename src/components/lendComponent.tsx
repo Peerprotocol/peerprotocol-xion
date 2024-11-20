@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect } from "react";
-import LendInfoTable from "./lendinfo";
+import React, {  } from "react";
 import { tableData } from "@/lib/data";
 import Pagination from "./Pagination";
 import usePagination from "@/lib/hooks/usePagination";

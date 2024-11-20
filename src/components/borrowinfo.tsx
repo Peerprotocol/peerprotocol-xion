@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import Table from "./Table";
 import { infoTableLabels } from "@/lib/data";
 // import { UserContext } from "./WalletConnectProvider";
-import { toast } from "react-toastify";
 // import { infoDataType } from "@/lib/types";
 
 const InfoTable = ({ tableItems }: { tableItems: any[] }) => {

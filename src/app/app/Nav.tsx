@@ -1,13 +1,33 @@
 "use client";
 import Image from "next/image";
-import Dropdown from "./dropdown";
-import { useState } from "react";
-import { WalletConnectButton } from "@/components/wallets/walletConnectButton";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import {
+  Abstraxion,
+  useAbstraxionAccount,
+  useModal,
+} from "@burnt-labs/abstraxion";
+import { Button } from "@burnt-labs/ui";
+import { shortenAddress } from "@/lib/utils/address-shortener";
 
 const Nav = () => {
-  const [selectedOption, setSelectedOption] = useState("solana");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Abstraxion hooks
+  const {
+    data: { bech32Address },
+    isConnected,
+    isConnecting,
+  } = useAbstraxionAccount();
+
+  // General state hooks
+  const [, setShow] = useModal();
+
+  // watch isConnected and isConnecting
+  // only added for testing
+  useEffect(() => {
+    console.log({ isConnected, isConnecting });
+  }, [isConnected, isConnecting]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -39,13 +59,34 @@ const Nav = () => {
 
       {/* Dropdown and WalletConnectButton */}
       <div className="flex items-center gap-3">
-        <div className="hidden">
+        {/* <div className="hidden">
           <Dropdown
             setSelectedOption={setSelectedOption}
             selectedOption={selectedOption}
           />
-        </div>
-        <WalletConnectButton network={selectedOption} />
+        </div> */}
+        {/* <WalletConnectButton network={selectedOption} /> */}
+        <Button
+          fullWidth
+          onClick={() => {
+            setShow(true);
+          }}
+          structure="base"
+        >
+          {bech32Address ? (
+            <div className="flex items-center justify-center">VIEW ACCOUNT</div>
+          ) : (
+            "CONNECT"
+          )}
+        </Button>
+        {bech32Address && (
+          <div className="border-2 border-primary rounded-md p-4 flex flex-row gap-4 text-black">
+            <div className="flex flex-row gap-6">
+              <div>{shortenAddress(bech32Address)}</div>
+            </div>
+          </div>
+        )}
+        <Abstraxion onClose={() => setShow(false)} />
       </div>
 
       {/* Mobile nav toggle */}

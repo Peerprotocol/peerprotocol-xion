@@ -2,13 +2,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Settings from "../../../../public/images/Set.svg";
 import Logo from "../../../../public/images/LogoBlack.svg";
-import { useProgram } from "@/context/program.context";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { Token, whitelistedTokens } from "@/lib/utils/tokens.data";
 import { useQuery } from "@tanstack/react-query";
-import { getAccount, getMint } from "@solana/spl-token";
-import { useConnection } from "@solana/wallet-adapter-react";
-import { getAta } from "@/lib/utils/getAta";
+import { useDeposit } from "@/hooks/use-deposit";
 
 type MarketOptions = "deposit" | "withdraw";
 const marketOptions: MarketOptions[] = ["deposit", "withdraw"];
@@ -18,33 +13,7 @@ const DepositWithdrawPeer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] =
     useState<MarketOptions>("deposit");
-  const [selectedToken, setSelectedToken] = useState<Token>(
-    whitelistedTokens.USDC
-  );
-  const {
-    withdrawSol,
-    depositSol,
-    depositSpl,
-    withdrawSpl,
-    userProfileSolBal = 0,
-    userProfilePda,
-  } = useProgram();
-  const { connection } = useConnection();
-  const { data: tokenBalance = 0 } = useQuery({
-    queryKey: ["peer-protocol", "token-balance", selectedToken],
-    queryFn: async () => {
-      if (selectedToken.isNative) return 0;
-
-      const ata = getAta(userProfilePda, selectedToken.mintAddress);
-      const [info, mint] = await Promise.all([
-        getAccount(connection, ata),
-        getMint(connection, selectedToken.mintAddress),
-      ]);
-      const amount = Number(info.amount);
-      const balance = amount / 10 ** mint.decimals;
-      return balance;
-    },
-  });
+  const { depositMutation } = useDeposit();
 
   const handleSelectChange = (option: MarketOptions) => {
     setSelectedOption(option);
@@ -52,7 +21,7 @@ const DepositWithdrawPeer = () => {
   };
 
   const handleTokenChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedToken(whitelistedTokens[e.target.value]);
+    // setSelectedToken(whitelistedTokens[e.target.value]);
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,19 +101,19 @@ const DepositWithdrawPeer = () => {
           <div className="flex items-center justify-center bg-[#0000000D] py-2 px-4 rounded-xl">
             <select
               className="bg-transparent text-black outline-none"
-              value={selectedToken.symbol}
+              // value={selectedToken.symbol}
               onChange={handleTokenChange}
             >
               <option value="USDC">USDC</option>
-              <option value="SOL">SOL</option>
+              <option value="XION">XION</option>
             </select>
             <div className="flex-shrink-0 pl-6">
-              <Image
+              {/* <Image
                 src={selectedToken.image}
                 height={15}
                 width={15}
                 alt="dropicon"
-              />
+              /> */}
             </div>
           </div>
 
@@ -158,9 +127,9 @@ const DepositWithdrawPeer = () => {
         </div>
         <p className="text-xs">
           Available:{" "}
-          {selectedToken === whitelistedTokens["SOL"]
+          {/* {selectedToken === whitelistedTokens["SOL"]
             ? (userProfileSolBal / LAMPORTS_PER_SOL).toFixed(4)
-            : tokenBalance.toFixed(4)}
+            : tokenBalance.toFixed(4)} */}
         </p>
         <div className="flex gap-2 justify-end">
           {["25%", "50%", "75%", "100%"].map((percent, index) => (
@@ -176,29 +145,9 @@ const DepositWithdrawPeer = () => {
       <button
         className="bg-black text-white rounded-lg w-full py-3 mt-4 capitalize"
         onClick={() => {
-          switch (selectedOption) {
-            case "deposit":
-              selectedToken.isNative
-                ? depositSol.mutate({
-                    amount: +amount * LAMPORTS_PER_SOL,
-                  })
-                : depositSpl.mutate({
-                    amount: +amount * LAMPORTS_PER_SOL,
-                    mint: selectedToken.mintAddress,
-                  });
-              break;
-            case "withdraw":
-              selectedToken.isNative
-                ? withdrawSol.mutate({
-                    amount: +amount * LAMPORTS_PER_SOL,
-                  })
-                : withdrawSpl.mutate({
-                    amount: +amount * LAMPORTS_PER_SOL,
-                    mint: selectedToken.mintAddress,
-                  });
-              break;
-          }
+          depositMutation.mutate(amount);
         }}
+        disabled={depositMutation.isPending}
       >
         {selectedOption}
       </button>

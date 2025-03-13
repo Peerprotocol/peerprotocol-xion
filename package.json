@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@burnt-labs/abstraxion": "^1.0.0-alpha.52",
+    "@burnt-labs/abstraxion": "^1.0.0-alpha.58",
     "@cosmjs/cosmwasm-stargate": "^0.32.4",
     "@cosmjs/stargate": "^0.32.4",
     "@headlessui/react": "^1.6.6",
